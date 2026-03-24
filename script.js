@@ -1,125 +1,103 @@
-const state = {
-    score: 0,
-    currentIdx: 0,
-    totalQ: 0,
-    questions: [],
-    currentAns: 0
-};
-
-// Gerador de questões simples (onde X é o resultado direto)
-function genSimple() {
-    let a, c, x, b;
-    do {
-        a = (Math.floor(Math.random() * 5) + 2) * 10;
-        c = (Math.floor(Math.random() * 5) + 2) * 10;
-        x = (Math.floor(Math.random() * 10) + 2) * 5;
-        b = (a * x) / c;
-    } while (!Number.isInteger(b) || a === b);
-    return { type: 'simple', labels: [a, b, c, "X"], ans: x };
+:root {
+    --bg: #1a1c24; /* Azul escuro quase preto */
+    --card: #ffffff;
+    --primary: #2c3e50; /* Azul petróleo */
+    --accent: #27ae60; /* Verde */
+    --danger: #e74c3c; /* Vermelho */
+    --text: #ffffff; /* Texto branco */
+    --card-text: #333333; /* Texto dentro do card */
 }
 
-// Gerador de questões algébricas (estilo da sua foto)
-function genAlgebraic() {
-    // Proporção: (mx + n) / (px + q) = R1 / R2
-    // Para simplificar e garantir X inteiro: 
-    // Vamos fixar X e construir a equação em volta.
-    let x = Math.floor(Math.random() * 5) + 2; // O X que o aluno deve achar
-    let m = Math.floor(Math.random() * 4) + 1;
-    let n = Math.floor(Math.random() * 5) + 1;
-    let p = 1; 
-    let q = Math.floor(Math.random() * 4) + 1;
-
-    let val1 = m * x + n; // Ex: 4x + 1
-    let val2 = p * x + q; // Ex: x + 2
-    
-    // Simplificamos a fração val1/val2 para obter os números da direita
-    function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-    let common = gcd(val1, val2);
-    let r1 = val1 / common;
-    let r2 = val2 / common;
-
-    return { 
-        type: 'algebraic', 
-        labels: [`${m > 1 ? m : ''}x + ${n}`, `${p > 1 ? p : ''}x + ${q}`, r1, r2], 
-        ans: x 
-    };
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
 }
 
-function loadQuestion() {
-    const q = state.questions[state.currentIdx];
-    state.currentAns = q.ans;
-    
-    document.getElementById('quest-level').innerText = `Projeto ${state.currentIdx + 1} de ${state.totalQ}`;
-    document.getElementById('question-text').innerText = q.type === 'simple' ? 
-        "Calcule a distância da quadra X." : "Resolva a equação de tráfego para encontrar o valor de X.";
-    
-    document.getElementById('feedback').innerText = "";
-    document.getElementById('answer-input').value = "";
-    document.getElementById('btn-check').style.display = "inline-block";
-    document.getElementById('btn-next').style.display = "none";
-    
-    const svg = document.getElementById('dynamic-svg');
-    svg.innerHTML = `
-        <line x1="40" y1="80" x2="360" y2="80" stroke="#7f8c8d" stroke-width="12"/>
-        <line x1="40" y1="150" x2="360" y2="150" stroke="#7f8c8d" stroke-width="12"/>
-        <line x1="40" y1="220" x2="360" y2="220" stroke="#7f8c8d" stroke-width="12"/>
-        <line x1="120" y1="40" x2="100" y2="260" stroke="#34495e" stroke-width="8"/>
-        <line x1="280" y1="40" x2="300" y2="260" stroke="#34495e" stroke-width="8"/>
-        <text x="60" y="115" fill="#333" font-weight="bold" font-size="16">${q.labels[0]}</text>
-        <text x="60" y="195" fill="#333" font-weight="bold" font-size="16">${q.labels[1]}</text>
-        <text x="310" y="115" fill="#333" font-weight="bold" font-size="16">${q.labels[2]}</text>
-        <text x="310" y="195" fill="#333" font-weight="bold" font-size="16">${q.labels[3]}</text>
-    `;
+#particles-js {
+    position: fixed; /* Fixado para cobrir a tela inteira ao rolar */
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
 }
 
-function startPractice(qtd) {
-    state.totalQ = qtd;
-    state.score = 0;
-    state.currentIdx = 0;
-    state.questions = [];
-    
-    for(let i=0; i<qtd; i++) {
-        // A cada 2 questões, a dificuldade aumenta
-        if (i < 2) state.questions.push(genSimple());
-        else state.questions.push(genAlgebraic());
-    }
-    loadQuestion();
-    showScreen('game');
+.container {
+    position: relative;
+    z-index: 2; /* Garante que o card fique acima das partículas */
+    background: var(--card);
+    border-top: 8px solid var(--primary);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    color: var(--card-text);
 }
 
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ecf0f1;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('btn-revisar').onclick = () => showScreen('revision');
-    document.getElementById('btn-praticar-menu').onclick = () => showScreen('practice-select');
-    document.getElementById('btn-voltar-menu').onclick = () => showScreen('menu');
-    document.getElementById('btn-restart').onclick = () => showScreen('menu');
+#timer-display { font-weight: bold; color: var(--accent); }
+#score-display { font-weight: bold; color: var(--danger); }
+h1 { color: var(--primary); margin: 0; font-size: 1.5rem; }
 
-    document.querySelectorAll('#practice-select .btn').forEach(btn => {
-        btn.onclick = () => startPractice(parseInt(btn.getAttribute('data-qtd')));
-    });
+.screen { display: none; animation: fadeIn 0.4s ease; }
+.active { display: block; }
 
-    document.getElementById('btn-check').onclick = () => {
-        const userVal = parseInt(document.getElementById('answer-input').value);
-        if (userVal === state.currentAns) {
-            document.getElementById('feedback').innerText = "✓ Excelente cálculo!";
-            document.getElementById('feedback').style.color = "green";
-            state.score++;
-        } else {
-            document.getElementById('feedback').innerText = `✗ Erro. O valor de X era ${state.currentAns}.`;
-            document.getElementById('feedback').style.color = "red";
-        }
-        document.getElementById('score-display').innerText = `Pontos: ${state.score}`;
-        document.getElementById('btn-check').style.display = "none";
-        document.getElementById('btn-next').style.display = "inline-block";
-    };
+.btn, .btn-action {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
 
-    document.getElementById('btn-next').onclick = () => {
-        state.currentIdx++;
-        if (state.currentIdx < state.totalQ) loadQuestion();
-        else showScreen('final');
-    };
-});
+.btn:hover { background: #34495e; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+.btn-action { background: var(--accent); }
+.btn-action:hover { background: #219150; }
+
+.svg-wrapper { background: #ecf0f1; margin: 20px 0; border-radius: 4px; border: 1px solid #bdc3c7; }
+
+#answer-input { padding: 10px; width: 100px; font-size: 1.1rem; border: 2px solid #bdc3c7; border-radius: 4px; margin: 10px 0; }
+#feedback { font-weight: bold; margin-top: 15px; }
+
+.formula { background: #f9f9f9; padding: 15px; border-left: 5px solid var(--accent); font-size: 1.2rem; margin: 1rem 0; }
+
+/* Estilo para a Contagem Regressiva */
+#countdown {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10rem;
+    font-weight: bold;
+    z-index: 999;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
