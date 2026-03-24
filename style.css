@@ -1,1 +1,79 @@
+:root {
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --primary: #2c3e50;
+    --accent: #27ae60;
+    --danger: #e74c3c;
+    --text: #333;
+}
 
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinhado ao topo para facilitar o scroll */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow-y: auto; /* Permite rolar a tela */
+}
+
+.container {
+    background: var(--card);
+    border-top: 8px solid var(--primary);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+h1 { color: var(--primary); margin-bottom: 0.5rem; }
+
+.screen { display: none; }
+.active { display: block; }
+
+.btn, .btn-action {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    margin: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn:hover { background: #34495e; }
+.btn-action { background: var(--accent); }
+.btn-action:hover { background: #219150; }
+
+.svg-wrapper { 
+    background: #ecf0f1; 
+    margin: 20px 0; 
+    border-radius: 4px;
+    border: 1px solid #bdc3c7;
+}
+
+#answer-input {
+    padding: 10px;
+    width: 100px;
+    font-size: 1.1rem;
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+#feedback { font-weight: bold; margin-top: 15px; }
+
+.formula {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 5px solid var(--accent);
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
