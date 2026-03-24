@@ -1,55 +1,60 @@
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
-<div class="container">
-    <div class="header">
-        <h1>Engenharia de Tráfego: Tales Pro</h1>
-        <div id="score-display">Pontos: 0</div>
-    </div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engenharia de Tráfego: Tales Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="particles-js"></div>
 
-    <div id="menu" class="screen active">
-        <h2>Planejamento Urbano Avançado</h2>
-        <p>Projete a cidade resolvendo cálculos de proporção simples e algébricos.</p>
-        <div class="button-group">
-            <button class="btn" id="btn-revisar">Revisar Teoria</button>
-            <button class="btn" id="btn-praticar-menu">Iniciar Obras</button>
+    <div class="container">
+        <div class="header">
+            <div id="timer-display">Tempo: 00:00</div>
+            <h1>Engenharia de Tráfego: Tales</h1>
+            <div id="score-display">Pontos: 0</div>
         </div>
-    </div>
 
-    <div id="revision" class="screen">
-        <h2>Revisão Técnica</h2>
-        <div class="theory-box">
-            <p>Quando as medidas das quadras são dadas por expressões (ex: 4x+1), montamos a proporção da mesma forma:</p>
-            <div class="formula"> (4x + 1) / (x + 2) = 16 / 18 </div>
-            <p>Depois, multiplicamos em cruz e resolvemos a equação de 1º grau.</p>
+        <div id="menu" class="screen active">
+            <div class="character-art"></div>
+            <h2>Bem-vindo, Engenheiro Urbano!</h2>
+            <p>Utilize o Teorema de Tales para calcular distâncias entre avenidas paralelas e projetar a cidade.</p>
+            <div class="button-group">
+                <button class="btn" id="btn-revisar">Revisar Teoria</button>
+                <button class="btn" id="btn-praticar-menu">Iniciar Obras</button>
+            </div>
         </div>
-        <button class="btn" id="btn-voltar-menu">Voltar</button>
-    </div>
 
-    <div id="practice-select" class="screen">
-        <h2>Escolha a extensão do projeto:</h2>
-        <button class="btn" data-qtd="4">4 Quadras (Fácil + Médio)</button>
-        <button class="btn" data-qtd="6">6 Quadras (Progressivo)</button>
-        <button class="btn" data-qtd="10">10 Quadras (Desafio Total)</button>
-    </div>
-
-    <div id="game" class="screen">
-        <h3 id="quest-level">Projeto 1</h3>
-        <p id="question-text"></p>
-        <div class="svg-wrapper">
-            <svg id="dynamic-svg" viewBox="0 0 400 300"></svg>
+        <div id="revision" class="screen">
+            <h2>Revisão Técnica</h2>
+            <div class="theory-box">
+                <p>Em um mapa, quando ruas paralelas são cortadas por avenidas transversais, os quarteirões formados são proporcionais.</p>
+                <div class="formula">A / B = C / D</div>
+            </div>
+            <button class="btn" id="btn-voltar-menu">Voltar</button>
         </div>
-        <div class="input-area">
-            <label id="input-label">Qual o valor de X?</label><br>
-            <input type="number" id="answer-input" placeholder="?">
-            <button class="btn-action" id="btn-check">Medir</button>
-            <button class="btn-action" id="btn-next" style="display:none;">Próxima Obra</button>
-        </div>
-        <p id="feedback"></p>
-    </div>
 
-    <div id="final" class="screen">
-        <h2>Projeto Concluído!</h2>
-        <p id="final-msg"></p>
-        <button class="btn" id="btn-restart">Novo Projeto</button>
-    </div>
-</div>
+        <div id="practice-select" class="screen">
+            <h2>Escolha a extensão da obra:</h2>
+            <button class="btn" data-qtd="4">4 Quadras (Fácil + Médio)</button>
+            <button class="btn" data-qtd="6">6 Quadras (Progressivo)</button>
+            <button class="btn" data-qtd="10">10 Quadras (Desafio Total)</button>
+        </div>
+
+        <div id="countdown" class="screen">
+            <div id="countdown-number">3</div>
+        </div>
+
+        <div id="game" class="screen">
+            <h3 id="quest-level">Quadra 1</h3>
+            <p id="question-text"></p>
+            <div class="svg-wrapper">
+                <svg id="dynamic-svg" viewBox="0 0 400 300"></svg>
+            </div>
+            <div class="input-area">
+                <label for="answer-input">Distância X (m):</label><br>
+                <input type="number" id="answer-input" placeholder="?">
+                <button class="btn-action" id="btn-check">Medir</button>
+                <button class="btn-action" id="btn-next" style="display:none;">Próxima Rua</button>
